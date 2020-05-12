@@ -6,6 +6,12 @@ import { AppComponent } from './app.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { LoginComponent } from './login/login.component';
 import { GroupManagementComponent } from './group-management/group-management.component';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GridModule } from '@progress/kendo-angular-grid';
+
+
+
 
 @NgModule({
   declarations: [
@@ -16,7 +22,10 @@ import { GroupManagementComponent } from './group-management/group-management.co
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ButtonsModule,
+    BrowserAnimationsModule,
+    GridModule
   ],
   providers: [],
   bootstrap: [AppComponent]
