@@ -27,6 +27,11 @@ export class GroupManagementComponent implements OnInit {
       {id: 2, first_name: "Logan", last_name: "Willett", group_name: "Goon"},
       {id: 3, first_name: "Test", last_name: "Test", group_name: "Jerk"},
     ];
+
+    this.groups = [
+      {id: 1, name: "Goon"},
+      {id: 2, name: "Jerk"},
+    ];
     //Pull user data
   }
 
@@ -38,7 +43,7 @@ export class GroupManagementComponent implements OnInit {
         return;
     }
 
-    //this.saveCurrent();
+    this.closeEditor();
 
     this.formGroup = new FormGroup({
       'group_name': new FormControl(dataItem.group_name),
@@ -46,6 +51,18 @@ export class GroupManagementComponent implements OnInit {
     this.editedRowIndex = rowIndex;
 
     this.grid.editRow(rowIndex, this.formGroup);
+  }
+
+  public onGroupChange(e) {
+    //Push chang to group via api call
+    this.formGroup.controls.group_name.setValue(undefined);
+    this.closeEditor();
+  }
+
+  private closeEditor(): void {
+    this.grid.closeRow(this.editedRowIndex);
+    this.editedRowIndex = undefined;
+    this.formGroup = undefined;
   }
 
 }

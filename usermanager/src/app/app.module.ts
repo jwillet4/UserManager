@@ -9,6 +9,8 @@ import { GroupManagementComponent } from './group-management/group-management.co
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
 
 
 
@@ -25,7 +27,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
     AppRoutingModule,
     ButtonsModule,
     BrowserAnimationsModule,
-    GridModule
+    GridModule,
+    DropDownsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,5 +2,19 @@
     <kendo-grid-column field="id" title="User ID" width="130"></kendo-grid-column>
     <kendo-grid-column field="first_name" title="First Name" width="200"></kendo-grid-column>
     <kendo-grid-column field="last_name" title="Last Name" width="200"></kendo-grid-column>
-    <kendo-grid-column field="group_name" title="Group" width="200"></kendo-grid-column>
+    <kendo-grid-column field="group_name" title="Group" width="200">
+        <ng-template kendoGridEditTemplate
+            let-dataItem="dataItem"
+            let-formGroup="formGroup">
+            <kendo-dropdownlist #namesDropDown
+                [data]="groups"
+                (valueChange)="onGroupChange($event)"
+                textField="name"
+                valueField="name"
+                formControlName="group_name"
+            >
+            </kendo-dropdownlist>
+        </ng-template>
+    </kendo-grid-column>
 </kendo-grid>
+
