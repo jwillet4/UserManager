@@ -22,16 +22,10 @@ export class UserManagementComponent implements OnInit {
 
   constructor(private titleService: Title, private userService: UserService) {
     titleService.setTitle('User Manager');
-
-    this.users = [
-      {id: 1, first_name: "Admin", last_name: "Adminson", email: "admin@admin.com"},
-      {id: 2, first_name: "Logan", last_name: "Willett", email: "loganwillett96@gmail.com"},
-      {id: 3, first_name: "Test", last_name: "Test", email: "test@gmail.com"},
-    ];
-    //Pull user data
   }
 
   ngOnInit(): void {
+    this.userService.users.subscribe(users => this.users = users);
   }
 
   public addHandler({sender}) {
