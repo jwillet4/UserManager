@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserGroup } from '../models/user-group';
 import { Group } from '../models/group';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormsModule } from '@angular/forms';
 import { AddEvent, EditEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { groupBy, GroupDescriptor } from '@progress/kendo-data-query';
 import { Title } from '@angular/platform-browser';
@@ -16,15 +16,24 @@ export class GroupManagementComponent implements OnInit {
   public user_groups: Array<UserGroup>; 
   public groups: Array<Group>; 
 
-  public formGroup: FormGroup;
-  public currentGroup: string;
-
   @ViewChild(GridComponent)
   private grid: GridComponent;
   private editedRowIndex: number;
 
+  public addGroupOpened: Boolean;
+  public addGroupName: String;
+
+  public removeGroupOpened: Boolean;
+  public removeGroup: Group;
+
+  public editGroupOpened: Boolean;
+  public editGroup: Group;
+  private editUserGroup: UserGroup;
+
   constructor(private titleService: Title) { 
     titleService.setTitle('Group Manager');
+
+    this.addGroupOpened = false;
 
     this.user_groups = [
       {id: 1, first_name: "Admin", last_name: "Adminson", group_name: "Goon"},
@@ -42,35 +51,63 @@ export class GroupManagementComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  public cellClickHandler({ isEdited, dataItem, rowIndex }): void {
-    if (isEdited || (this.formGroup && !this.formGroup.valid)) {
-        return;
-    }
-
-    this.closeEditor();
-
-    this.formGroup = new FormGroup({
-      'group_name': new FormControl(),
-    });
-    this.currentGroup = dataItem.group_name;
-    this.editedRowIndex = rowIndex;
-
-    this.grid.editRow(rowIndex, this.formGroup);
+  
+  public addHandler({sender}) {
+    this.openAddGroup();
   }
 
-  public onGroupChange(e) {
-    //Push chang to group via api call
-    console.log(e)
-    this.formGroup.controls.group_name.setValue(undefined);
-    this.closeEditor();
+  public closeAddGroup() {
+    this.addGroupOpened = false;
+    this.addGroupName = undefined;
   }
 
-  public closeEditor(): void {
-    this.grid.closeRow(this.editedRowIndex);
-    this.editedRowIndex = undefined;
-    this.currentGroup = undefined;
-    this.formGroup = undefined;
+  public openAddGroup() {
+    this.addGroupOpened = true;
+  }
+
+  public submitAddGroup() {
+    console.log(this.addGroupName);
+    //add save call
+    this.closeAddGroup();
+  }
+
+  public removeHandler({sender}) {
+    this.openRemoveGroup();
+  }
+
+  public closeRemoveGroup() {
+    this.removeGroupOpened = false;
+    this.removeGroup = undefined;
+  }
+
+  public openRemoveGroup() {
+    this.removeGroupOpened = true;
+  }
+
+  public submitRemoveGroup() {
+    console.log(this.removeGroup);
+    //add save call
+    this.closeRemoveGroup();
+  }
+
+  public editHandler({dataItem}) {
+    this.editUserGroup = dataItem;
+    this.openEditGroup();
+  }
+
+  public closeEditGroup() {
+    this.editGroupOpened = false;
+    this.editGroup = undefined;
+  }
+
+  public openEditGroup() {
+    this.editGroupOpened = true;
+  }
+
+  public submitEditGroup() {
+    console.log(this.editGroup);
+    //add save call
+    this.closeEditGroup();
   }
 
 }

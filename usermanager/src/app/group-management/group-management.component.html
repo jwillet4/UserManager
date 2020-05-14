@@ -1,25 +1,43 @@
-<kendo-grid [data]="user_groups" [height]="650" (cellClick)="cellClickHandler($event)">
+<kendo-grid [data]="user_groups" [height]="650" (add)="addHandler($event)" (remove)="removeHandler($event)" (edit)="editHandler($event)">
     <ng-template kendoGridToolbarTemplate>
-        <!-- <button kendoGridAddCommand>Add group</button>
-        <button kendoGridDeleteCommand>Add group</button> -->
-        <button *ngIf="formGroup" (click)="closeEditor()" class="k-button k-primary">Cancel</button>
+        <button kendoGridAddCommand [primary]="true">Add group</button>
+        <button kendoGridRemoveCommand>Delete group</button>
     </ng-template>
     <kendo-grid-column field="id" title="User ID" width="130"></kendo-grid-column>
     <kendo-grid-column field="first_name" title="First Name" width="200"></kendo-grid-column>
     <kendo-grid-column field="last_name" title="Last Name" width="200"></kendo-grid-column>
-    <kendo-grid-column field="group_name" title="Group" width="200">
-        <ng-template kendoGridEditTemplate
-            let-dataItem="dataItem"
-            let-formGroup="formGroup">
-            <kendo-dropdownlist #namesDropDown
-                [data]="groups"
-                (valueChange)="onGroupChange($event)"
-                textField="name"
-                valueField="name"
-                formControlName="group_name"
-            >
-            </kendo-dropdownlist>
+    <kendo-grid-column field="group_name" title="Group" width="200"></kendo-grid-column>
+    <kendo-grid-command-column title="Commands" width="220">
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+            <button kendoGridEditCommand>Change group</button>
         </ng-template>
-    </kendo-grid-column>
+    </kendo-grid-command-column>
 </kendo-grid>
 
+<kendo-dialog title="Add a new group" *ngIf="addGroupOpened" (close)="closeAddGroup()" [minWidth]="250" [width]="450">
+    <kendo-textbox-container floatingLabel="Group name">
+        <input kendoTextBox [(ngModel)]="addGroupName" required />
+    </kendo-textbox-container>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeAddGroup()">Cancel</button>
+        <button kendoButton (click)="submitAddGroup()" [disabled]="addGroupName == '' || addGroupName == undefined" primary="true">Add</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
+
+<kendo-dialog title="Remove group" *ngIf="removeGroupOpened" (close)="closeRemoveGroup()" [minWidth]="250" [width]="450">
+    <p>Group to remove</p>
+    <kendo-dropdownlist [data]="groups" [(ngModel)]="removeGroup" textField="name" valueField="id"></kendo-dropdownlist>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeRemoveGroup()">Cancel</button>
+        <button kendoButton (click)="submitRemoveGroup()" [disabled]="removeGroup == undefined || removeGroup.name == ''" primary="true">Delete</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
+
+<kendo-dialog title="Change user group" *ngIf="editGroupOpened" (close)="closeEditGroup()" [minWidth]="250" [width]="450">
+    <p>Select the users new group</p>
+    <kendo-dropdownlist [data]="groups" [(ngModel)]="editGroup" textField="name" valueField="id"></kendo-dropdownlist>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="closeEditGroup()">Cancel</button>
+        <button kendoButton (click)="submitEditGroup()" [disabled]="editGroup == undefined" primary="true">Save</button>
+    </kendo-dialog-actions>
+</kendo-dialog>

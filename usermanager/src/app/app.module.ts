@@ -10,6 +10,10 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -28,7 +32,10 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     ButtonsModule,
     BrowserAnimationsModule,
     GridModule,
-    DropDownsModule
+    DropDownsModule,
+    DialogsModule,
+    InputsModule,
+    FormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
