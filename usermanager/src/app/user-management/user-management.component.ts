@@ -4,6 +4,7 @@ import { logWarnings } from 'protractor/built/driverProviders';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user-management',
@@ -18,7 +19,9 @@ export class UserManagementComponent implements OnInit {
 
   private editedRowIndex: number;
 
-  constructor() {
+  constructor(private titleService: Title) {
+    titleService.setTitle('User Manager');
+
     this.users = [
       {id: 1, first_name: "Admin", last_name: "Adminson", email: "admin@admin.com"},
       {id: 2, first_name: "Logan", last_name: "Willett", email: "loganwillett96@gmail.com"},

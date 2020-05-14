@@ -1,4 +1,9 @@
 <kendo-grid [data]="user_groups" [height]="650" (cellClick)="cellClickHandler($event)">
+    <ng-template kendoGridToolbarTemplate>
+        <!-- <button kendoGridAddCommand>Add group</button>
+        <button kendoGridDeleteCommand>Add group</button> -->
+        <button *ngIf="formGroup" (click)="closeEditor()" class="k-button k-primary">Cancel</button>
+    </ng-template>
     <kendo-grid-column field="id" title="User ID" width="130"></kendo-grid-column>
     <kendo-grid-column field="first_name" title="First Name" width="200"></kendo-grid-column>
     <kendo-grid-column field="last_name" title="Last Name" width="200"></kendo-grid-column>

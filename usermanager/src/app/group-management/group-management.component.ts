@@ -4,6 +4,7 @@ import { Group } from '../models/group';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AddEvent, EditEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { groupBy, GroupDescriptor } from '@progress/kendo-data-query';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-group-management',
@@ -16,12 +17,15 @@ export class GroupManagementComponent implements OnInit {
   public groups: Array<Group>; 
 
   public formGroup: FormGroup;
+  public currentGroup: string;
 
   @ViewChild(GridComponent)
   private grid: GridComponent;
   private editedRowIndex: number;
 
-  constructor() { 
+  constructor(private titleService: Title) { 
+    titleService.setTitle('Group Manager');
+
     this.user_groups = [
       {id: 1, first_name: "Admin", last_name: "Adminson", group_name: "Goon"},
       {id: 2, first_name: "Logan", last_name: "Willett", group_name: "Goon"},
@@ -33,6 +37,7 @@ export class GroupManagementComponent implements OnInit {
       {id: 2, name: "Jerk"},
     ];
     //Pull user data
+    //Pull group data
   }
 
   ngOnInit(): void {
@@ -46,8 +51,9 @@ export class GroupManagementComponent implements OnInit {
     this.closeEditor();
 
     this.formGroup = new FormGroup({
-      'group_name': new FormControl(dataItem.group_name),
+      'group_name': new FormControl(),
     });
+    this.currentGroup = dataItem.group_name;
     this.editedRowIndex = rowIndex;
 
     this.grid.editRow(rowIndex, this.formGroup);
@@ -55,13 +61,15 @@ export class GroupManagementComponent implements OnInit {
 
   public onGroupChange(e) {
     //Push chang to group via api call
+    console.log(e)
     this.formGroup.controls.group_name.setValue(undefined);
     this.closeEditor();
   }
 
-  private closeEditor(): void {
+  public closeEditor(): void {
     this.grid.closeRow(this.editedRowIndex);
     this.editedRowIndex = undefined;
+    this.currentGroup = undefined;
     this.formGroup = undefined;
   }
 
