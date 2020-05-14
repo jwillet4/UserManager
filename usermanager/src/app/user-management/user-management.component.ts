@@ -48,10 +48,7 @@ export class UserManagementComponent implements OnInit {
 
   public saveHandler({sender, rowIndex, formGroup, isNew}) {
     const user: User = formGroup.value;
-    
-    //Add service call to add new user
-    this.users.push(user);
-
+    this.userService.addUser(user);
     sender.closeRow(rowIndex);
   }
 
@@ -60,10 +57,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   public removeHandler({dataItem}) {
-    this.users = this.users.filter(function( user ) {
-      return user !== dataItem;
-    });
-
-    //Add service call to hit api
+    this.userService.removeUser(dataItem);
   }
 }

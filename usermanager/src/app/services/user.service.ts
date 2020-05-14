@@ -10,7 +10,6 @@ export class UserService {
   private userSource: BehaviorSubject<Array<User>> = new BehaviorSubject<Array<User>>([]);
   public users;
 
-
   constructor() { 
     this.userSource = new BehaviorSubject<Array<User>>([]);
     this.users = this.userSource.asObservable();
@@ -24,4 +23,21 @@ export class UserService {
     ]);
 
   }
+
+  public getUsers(): void {
+    //Add api call to fetch users list
+  }
+
+  public addUser(user: User): void {
+    //add api call
+    let tempUsers = this.userSource.value
+    tempUsers.push(user);
+    this.userSource.next(tempUsers);
+  }
+
+  public removeUser(user: User): void {
+    //Add api call
+    this.userSource.next(this.userSource.value.filter(function( tempUser ) { return tempUser !== user; }));
+  }
+
 }
