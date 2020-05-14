@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { Title } from '@angular/platform-browser';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user-management',
@@ -19,7 +20,7 @@ export class UserManagementComponent implements OnInit {
 
   private editedRowIndex: number;
 
-  constructor(private titleService: Title) {
+  constructor(private titleService: Title, private userService: UserService) {
     titleService.setTitle('User Manager');
 
     this.users = [
