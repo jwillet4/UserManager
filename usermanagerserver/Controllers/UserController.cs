@@ -35,6 +35,16 @@ namespace usermanagerserver.Controllers
             return dc.User.ToList();
         }
 
+        [HttpDelete("[action]")]
+        public List<User> DeleteUser(User user) 
+        {
+            var dc = new UserManagementContext();
+            dc.User.Attach(user);
+            dc.User.Remove(user);
+            dc.SaveChanges();
+            return dc.User.ToList();
+        }
+
         // [HttpGet("[action]")]
         // public List<User> Test()
         // {
