@@ -37,8 +37,6 @@ export class GroupManagementComponent implements OnInit {
     this.addGroupOpened = false;
     this.removeGroupOpened = false;
     this.editGroupOpened = false;
-    //Pull user data
-    //Pull group data
   }
 
   ngOnInit(): void {
@@ -60,8 +58,7 @@ export class GroupManagementComponent implements OnInit {
   }
 
   public submitAddGroup() {
-    console.log(this.addGroupName);
-    //add save call
+    this.groupService.addGroup(this.addGroupName)
     this.closeAddGroup();
   }
 
@@ -79,8 +76,7 @@ export class GroupManagementComponent implements OnInit {
   }
 
   public submitRemoveGroup() {
-    console.log(this.removeGroup);
-    //add save call
+    this.groupService.removeGroup(this.removeGroup)
     this.closeRemoveGroup();
   }
 
@@ -92,6 +88,7 @@ export class GroupManagementComponent implements OnInit {
   public closeEditGroup() {
     this.editGroupOpened = false;
     this.editGroup = undefined;
+    this.editUserGroup = undefined;
   }
 
   public openEditGroup() {
@@ -99,8 +96,7 @@ export class GroupManagementComponent implements OnInit {
   }
 
   public submitEditGroup() {
-    console.log(this.editGroup);
-    //add save call
+    this.groupService.editUserGroup(this.editUserGroup, this.editGroup);
     this.closeEditGroup();
   }
 

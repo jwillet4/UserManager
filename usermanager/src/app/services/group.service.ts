@@ -35,4 +35,17 @@ export class GroupService {
     ]);
 
   }
+
+  public addGroup(group: String): void {
+
+  }
+
+  public removeGroup(group: Group): void {
+
+  }
+
+  public editUserGroup(userGroup: UserGroup, newGroup: Group): void {
+    
+  }
+
 }
