@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +33,13 @@ export class UserService {
   }
 
   public addUser(user: User): void {
-    //add api call
-    let tempUsers = this.userSource.value
-    tempUsers.push(user);
-    this.userSource.next(tempUsers);
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    this.httpClient.post<Array<User>>(this.baseUrl + '/AddUser', user, { headers }).subscribe( result => {
+      console.log(result)
+      this.userSource.next(result);
+    }, error => {
+      console.log(error)
+    });
   }
 
   public removeUser(user: User): void {
