@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,22 +11,25 @@ export class UserService {
   private userSource: BehaviorSubject<Array<User>>;
   public users;
 
-  constructor() { 
+  private httpClient: HttpClient;
+  private baseUrl: string;
+
+  constructor(private http: HttpClient) { 
     this.userSource = new BehaviorSubject<Array<User>>([]);
     this.users = this.userSource.asObservable();
 
+    this.httpClient = http;
+    this.baseUrl = "https://localhost:5001/user"
 
-    //Temp data
-    this.userSource.next([
-      {id: 1, first_name: "Admin", last_name: "Adminson", email: "admin@admin.com"},
-      {id: 2, first_name: "Logan", last_name: "Willett", email: "loganwillett96@gmail.com"},
-      {id: 3, first_name: "Test", last_name: "Test", email: "test@gmail.com"},
-    ]);
-
+    this.getUsers();
   }
 
   public getUsers(): void {
-    //Add api call to fetch users list
+    this.httpClient.get<Array<User>>(this.baseUrl).subscribe(result => {
+      this.userSource.next(result);
+    }, error => {
+      console.log(error);
+    });
   }
 
   public addUser(user: User): void {
