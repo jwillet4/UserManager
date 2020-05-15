@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators, FormsModule } from '@angular/forms'
 import { AddEvent, EditEvent, GridComponent } from '@progress/kendo-angular-grid';
 import { groupBy, GroupDescriptor } from '@progress/kendo-data-query';
 import { Title } from '@angular/platform-browser';
+import { GroupService } from '../services/group.service';
 
 @Component({
   selector: 'app-group-management',
@@ -30,26 +31,19 @@ export class GroupManagementComponent implements OnInit {
   public editGroup: Group;
   private editUserGroup: UserGroup;
 
-  constructor(private titleService: Title) { 
+  constructor(private titleService: Title, private groupService: GroupService) { 
     titleService.setTitle('Group Manager');
 
     this.addGroupOpened = false;
-
-    this.user_groups = [
-      {id: 1, first_name: "Admin", last_name: "Adminson", group_name: "Goon"},
-      {id: 2, first_name: "Logan", last_name: "Willett", group_name: "Goon"},
-      {id: 3, first_name: "Test", last_name: "Test", group_name: "Jerk"},
-    ];
-
-    this.groups = [
-      {id: 1, name: "Goon"},
-      {id: 2, name: "Jerk"},
-    ];
+    this.removeGroupOpened = false;
+    this.editGroupOpened = false;
     //Pull user data
     //Pull group data
   }
 
   ngOnInit(): void {
+    this.groupService.groups.subscribe(groups => this.groups = groups);
+    this.groupService.userGroups.subscribe(user_groups => this.user_groups = user_groups);
   }
   
   public addHandler({sender}) {

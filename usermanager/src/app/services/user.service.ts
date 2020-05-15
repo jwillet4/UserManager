@@ -7,7 +7,7 @@ import { User } from '../models/user';
 })
 export class UserService {
 
-  private userSource: BehaviorSubject<Array<User>> = new BehaviorSubject<Array<User>>([]);
+  private userSource: BehaviorSubject<Array<User>>;
   public users;
 
   constructor() { 
