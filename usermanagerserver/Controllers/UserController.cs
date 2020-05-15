@@ -26,6 +26,15 @@ namespace usermanagerserver.Controllers
             return dc.User.ToList();
         }
 
+        [HttpPost("[action]")]
+        public List<User> AddUser(User user) 
+        {
+            var dc = new UserManagementContext();
+            dc.User.Add(user);
+            dc.SaveChanges();
+            return dc.User.ToList();
+        }
+
         // [HttpGet("[action]")]
         // public List<User> Test()
         // {
