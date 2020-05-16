@@ -7,6 +7,7 @@ namespace webapi.Models
   public class UserManagementContext : DbContext
   {
     public DbSet<User> User { get; set; }
+    public DbSet<Group> Group { get; set; }
 
     public UserManagementContext() 
     {
@@ -30,13 +31,11 @@ namespace webapi.Models
         entity.Property(e => e.email).IsRequired();
       });
 
-    //   modelBuilder.Entity<Book>(entity =>
-    //   {
-    //     entity.HasKey(e => e.ISBN);
-    //     entity.Property(e => e.Title).IsRequired();
-    //     entity.HasOne(d => d.Publisher)
-    //       .WithMany(p => p.Books);
-    //   });
+      modelBuilder.Entity<Group>(entity =>
+      {
+        entity.HasKey(e => e.id);
+        entity.Property(e => e.name).IsRequired();
+      });
     }
   }
 }
