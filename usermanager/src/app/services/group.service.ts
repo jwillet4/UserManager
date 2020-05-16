@@ -43,14 +43,18 @@ export class GroupService {
   public getGroups(): void {
     this.httpClient.get<Array<Group>>(this.baseUrl).subscribe(result => {
       this.groupSource.next(result);
-      console.log(result)
     }, error => {
       console.log(error);
     });
   }
 
   public getUserGroups(): void {
-
+    this.httpClient.get<Array<UserGroup>>(this.baseUrl + "/UserGroups").subscribe(result => {
+      this.userGroupSource.next(result);
+      console.log(result)
+    }, error => {
+      console.log(error);
+    });
   }
 
   public addGroup(group: string): void {
