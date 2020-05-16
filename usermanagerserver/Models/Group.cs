@@ -4,7 +4,7 @@ namespace webapi.Models
 {
     public class Group
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string name { get; set; }
         
         public Group(int id, string name) {

@@ -51,30 +51,50 @@ namespace usermanagerserver.Controllers
         public dynamic UserGroups()
         {
             var dc = new UserManagementContext();
-            return dc.UserGroup.Join(
-                dc.User,
-                userGroup => userGroup.uid,
-                user => user.id,
-                (userGroup, user) => new
-                {
-                    id = user.id,
-                    first_name = user.first_name,
-                    last_name = user.last_name,
-                    gid = userGroup.gid
-                } 
-            ).Join(
-                dc.Group,
-                userGroup => userGroup.gid,
-                group => group.id,
-                (userGroup, group) => new
-                {
-                    uid = userGroup.id,
-                    first_name = userGroup.first_name,
-                    last_name = userGroup.last_name,
-                    gid = group.id,
-                    group_name = group.name
-                } 
-            ).ToList();
+
+            var firstJoin = from user in dc.User
+                join ug in dc.UserGroup on user.id equals ug.uid into gj
+                from sub in gj.DefaultIfEmpty()
+                select new { uid = user.id, user.first_name, user.last_name, gid = sub.gid };
+            var secondJoin = from userGroup in firstJoin
+                join g in dc.Group on userGroup.gid equals g.id into gj
+                from sub in gj.DefaultIfEmpty()
+                select new { uid = userGroup.uid, userGroup.first_name, userGroup.last_name, gid = sub.id, group_name = sub.name };
+
+            return secondJoin;
+        }
+
+        [HttpPut("[action]")]
+        public dynamic ChangeGroup(UserGroup ugc)
+        {
+            var dc = new UserManagementContext();
+
+            if (dc.UserGroup.Any(o => o.uid == ugc.uid))
+            {
+                UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
+                dc.UserGroup.Attach(ug);
+                dc.UserGroup.Remove(ug);
+                dc.SaveChanges();
+                dc.Add(ugc);
+            }
+            else
+            {
+                dc.Add(ugc);
+            }
+            dc.SaveChanges();
+
+            
+
+            var firstJoin = from user in dc.User
+                join ug in dc.UserGroup on user.id equals ug.uid into gj
+                from sub in gj.DefaultIfEmpty()
+                select new { uid = user.id, user.first_name, user.last_name, gid = sub.gid };
+            var secondJoin = from userGroup in firstJoin
+                join g in dc.Group on userGroup.gid equals g.id into gj
+                from sub in gj.DefaultIfEmpty()
+                select new { uid = userGroup.uid, userGroup.first_name, userGroup.last_name, gid = sub.id, group_name = sub.name };
+
+            return secondJoin;
         }
 
     }

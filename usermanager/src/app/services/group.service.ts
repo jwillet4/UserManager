@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserGroup } from '../models/user-group';
+import { UserGroup, UserGroupChangeDTO } from '../models/user-group';
 import { Group } from '../models/group';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
@@ -68,9 +68,10 @@ export class GroupService {
   }
 
   public editUserGroup(userGroup: UserGroup, newGroup: Group): void {
-    const httpParams = new HttpParams().set('userId', userGroup.uid.toString());
-    this.httpClient.delete<Array<Group>>(this.baseUrl + '/DeleteGroup', { params: httpParams }).subscribe( result => {
-      this.groupSource.next(result);
+    const headers = new HttpHeaders().set('content-type', 'application/json');
+    this.httpClient.put<Array<UserGroup>>(this.baseUrl + '/ChangeGroup', new UserGroupChangeDTO(userGroup.uid, newGroup.id), { headers }).subscribe( result => {
+      this.userGroupSource.next(result);
+      console.log(result)
     }, error => {
       console.log(error)
     });

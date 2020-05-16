@@ -13,3 +13,13 @@ export class UserGroup {
         this.group_name = group_name;
     }
 }
+
+export class UserGroupChangeDTO {
+    uid: number;
+    gid: number;
+
+    constructor(uid: number, gid: number) {
+        this.uid = uid;
+        this.gid = gid;
+    }
+}
