@@ -52,7 +52,6 @@ export class GroupService {
     const headers = new HttpHeaders().set('content-type', 'application/json');
     this.httpClient.post<Array<Group>>(this.baseUrl + '/AddGroup', new Group(group), { headers }).subscribe( result => {
       this.groupSource.next(result);
-      //Cause UserGroup pull
     }, error => {
       console.log(error)
     });
@@ -62,14 +61,20 @@ export class GroupService {
     const httpParams = new HttpParams().set('groupId', group.id.toString());
     this.httpClient.delete<Array<Group>>(this.baseUrl + '/DeleteGroup', { params: httpParams }).subscribe( result => {
       this.groupSource.next(result);
-      //Cause UserGroup pull
+      this.getUserGroups();
     }, error => {
       console.log(error)
     });
   }
 
   public editUserGroup(userGroup: UserGroup, newGroup: Group): void {
-    console.log(userGroup, newGroup)
+    const httpParams = new HttpParams().set('userId', userGroup.uid.toString());
+    this.httpClient.delete<Array<Group>>(this.baseUrl + '/DeleteGroup', { params: httpParams }).subscribe( result => {
+      this.groupSource.next(result);
+      //Cause UserGroup pull
+    }, error => {
+      console.log(error)
+    });
   }
 
 }
