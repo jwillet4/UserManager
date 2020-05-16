@@ -71,7 +71,6 @@ export class GroupService {
     const httpParams = new HttpParams().set('userId', userGroup.uid.toString());
     this.httpClient.delete<Array<Group>>(this.baseUrl + '/DeleteGroup', { params: httpParams }).subscribe( result => {
       this.groupSource.next(result);
-      //Cause UserGroup pull
     }, error => {
       console.log(error)
     });
