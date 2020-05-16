@@ -10,7 +10,7 @@ namespace webapi.Services
 {
     public class GroupService
     {
-
+        //Database context
         private UserManagementContext _dc;
 
         public GroupService() 
@@ -18,19 +18,21 @@ namespace webapi.Services
             _dc = new UserManagementContext();
         }
 
+        //Returns a list of all groups in database
         public List<Group> getGroups()
         {
             return _dc.Group.ToList();
         }
 
+        //Takes a group object and adds it to the database
         public List<Group> addGroup(Group group) 
         {
-            Console.WriteLine(group.name);
             _dc.Group.Add(group);
             _dc.SaveChanges();
             return _dc.Group.ToList();
         }
 
+        //Takes a groups id and deletes that database entry
         public List<Group> deleteGroup(int groupId) 
         {
             Group group = _dc.Group.Where(o => o.id == groupId).Single();
@@ -40,6 +42,7 @@ namespace webapi.Services
             return _dc.Group.ToList();
         }
 
+        //Returns list of usergroups that binds together the user and group items with a left join
         public dynamic getUserGroups()
         {
             var firstJoin = from user in _dc.User
@@ -53,6 +56,7 @@ namespace webapi.Services
             return secondJoin;
         }
 
+        //Takes usergroup object and replaces/adds connection between user and group in database
         public dynamic changeGroup(UserGroup ugc)
         {
             var dc = new UserManagementContext();
