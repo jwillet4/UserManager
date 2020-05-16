@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using webapi.Models;
+using webapi.Services;
 
 namespace usermanagerserver.Controllers
 {
@@ -13,88 +14,42 @@ namespace usermanagerserver.Controllers
     public class GroupController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private GroupService _gs;
 
         public GroupController(ILogger<UserController> logger)
         {
             _logger = logger;
+            _gs = new GroupService();
         }
 
         [HttpGet]
         public List<Group> Get()
         {
-            var dc = new UserManagementContext();
-            return dc.Group.ToList();
+            return _gs.getGroups();
         }
 
         [HttpPost("[action]")]
         public List<Group> AddGroup(Group group) 
         {
-            var dc = new UserManagementContext();
-            Console.WriteLine(group.name);
-            dc.Group.Add(group);
-            dc.SaveChanges();
-            return dc.Group.ToList();
+            return _gs.addGroup(group);
         }
 
         [HttpDelete("[action]")]
         public List<Group> DeleteGroup(int groupId) 
         {
-            var dc = new UserManagementContext();
-            Group group = dc.Group.Where(o => o.id == groupId).Single();
-            dc.Group.Attach(group);
-            dc.Group.Remove(group);
-            dc.SaveChanges();
-            return dc.Group.ToList();
+            return _gs.deleteGroup(groupId);
         }
 
         [HttpGet("[action]")]
         public dynamic UserGroups()
         {
-            var dc = new UserManagementContext();
-
-            var firstJoin = from user in dc.User
-                join ug in dc.UserGroup on user.id equals ug.uid into gj
-                from sub in gj.DefaultIfEmpty()
-                select new { uid = user.id, user.first_name, user.last_name, gid = sub.gid };
-            var secondJoin = from userGroup in firstJoin
-                join g in dc.Group on userGroup.gid equals g.id into gj
-                from sub in gj.DefaultIfEmpty()
-                select new { uid = userGroup.uid, userGroup.first_name, userGroup.last_name, gid = sub.id, group_name = sub.name };
-
-            return secondJoin;
+            return _gs.getUserGroups();
         }
 
         [HttpPut("[action]")]
         public dynamic ChangeGroup(UserGroup ugc)
         {
-            var dc = new UserManagementContext();
-
-            if (dc.UserGroup.Any(o => o.uid == ugc.uid))
-            {
-                UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
-                dc.UserGroup.Attach(ug);
-                dc.UserGroup.Remove(ug);
-                dc.SaveChanges();
-                dc.Add(ugc);
-            }
-            else
-            {
-                dc.Add(ugc);
-            }
-            dc.SaveChanges();
-
-            
-
-            var firstJoin = from user in dc.User
-                join ug in dc.UserGroup on user.id equals ug.uid into gj
-                from sub in gj.DefaultIfEmpty()
-                select new { uid = user.id, user.first_name, user.last_name, gid = sub.gid };
-            var secondJoin = from userGroup in firstJoin
-                join g in dc.Group on userGroup.gid equals g.id into gj
-                from sub in gj.DefaultIfEmpty()
-                select new { uid = userGroup.uid, userGroup.first_name, userGroup.last_name, gid = sub.id, group_name = sub.name };
-
-            return secondJoin;
+            return _gs.changeGroup(ugc);
         }
 
     }
