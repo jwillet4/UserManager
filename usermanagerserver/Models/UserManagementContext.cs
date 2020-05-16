@@ -8,6 +8,7 @@ namespace webapi.Models
   {
     public DbSet<User> User { get; set; }
     public DbSet<Group> Group { get; set; }
+    public DbSet<UserGroup> UserGroup { get; set; }
 
     public UserManagementContext() 
     {
@@ -35,6 +36,13 @@ namespace webapi.Models
       {
         entity.HasKey(e => e.id);
         entity.Property(e => e.name).IsRequired();
+      });
+
+      modelBuilder.Entity<UserGroup>(entity =>
+      {
+        entity.ToTable("user_group");
+        entity.HasKey(e => e.uid);
+        entity.HasKey(e => e.gid);
       });
     }
   }

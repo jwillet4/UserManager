@@ -47,5 +47,34 @@ namespace usermanagerserver.Controllers
             return dc.Group.ToList();
         }
 
+        [HttpGet("[action]")]
+        public dynamic UserGroups()
+        {
+            var dc = new UserManagementContext();
+            return dc.UserGroup.Join(
+                dc.User,
+                userGroup => userGroup.uid,
+                user => user.id,
+                (userGroup, user) => new
+                {
+                    id = user.id,
+                    first_name = user.first_name,
+                    last_name = user.last_name,
+                    gid = userGroup.gid
+                } 
+            ).Join(
+                dc.Group,
+                userGroup => userGroup.gid,
+                group => group.id,
+                (userGroup, group) => new
+                {
+                    id = userGroup.id,
+                    first_name = userGroup.first_name,
+                    last_name = userGroup.last_name,
+                    group_name = group.name
+                } 
+            ).ToList();
+        }
+
     }
 }

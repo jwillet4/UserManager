@@ -22,7 +22,7 @@ export class GroupManagementComponent implements OnInit {
   private editedRowIndex: number;
 
   public addGroupOpened: Boolean;
-  public addGroupName: String;
+  public addGroupName: string;
 
   public removeGroupOpened: Boolean;
   public removeGroup: Group;
