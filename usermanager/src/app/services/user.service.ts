@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
-import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +43,12 @@ export class UserService {
   }
 
   public removeUser(user: User): void {
-    //Add api call
-    this.userSource.next(this.userSource.value.filter(function( tempUser ) { return tempUser !== user; }));
+    const httpParams = new HttpParams().set('userId', user.id.toString());
+    this.httpClient.delete<Array<User>>(this.baseUrl + '/DeleteUser', { params: httpParams }).subscribe( result => {
+      this.userSource.next(result);
+    }, error => {
+      console.log(error)
+    });
   }
 
 }
