@@ -68,9 +68,10 @@ namespace usermanagerserver.Controllers
                 group => group.id,
                 (userGroup, group) => new
                 {
-                    id = userGroup.id,
+                    uid = userGroup.id,
                     first_name = userGroup.first_name,
                     last_name = userGroup.last_name,
+                    gid = group.id,
                     group_name = group.name
                 } 
             ).ToList();

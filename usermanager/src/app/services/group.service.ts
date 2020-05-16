@@ -30,14 +30,6 @@ export class GroupService {
 
     this.getGroups();
     this.getUserGroups();
-
-    //temp data
-    this.userGroupSource.next([
-      {id: 1, first_name: "Admin", last_name: "Adminson", group_name: "Goon"},
-      {id: 2, first_name: "Logan", last_name: "Willett", group_name: "Goon"},
-      {id: 3, first_name: "Test", last_name: "Test", group_name: "Jerk"},
-    ]);
-
   }
 
   public getGroups(): void {
@@ -78,7 +70,7 @@ export class GroupService {
   }
 
   public editUserGroup(userGroup: UserGroup, newGroup: Group): void {
-    
+    console.log(userGroup, newGroup)
   }
 
 }
