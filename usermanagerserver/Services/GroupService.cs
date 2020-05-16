@@ -56,18 +56,29 @@ namespace webapi.Services
         public dynamic changeGroup(UserGroup ugc)
         {
             var dc = new UserManagementContext();
-
-            if (dc.UserGroup.Any(o => o.uid == ugc.uid))
+            if (ugc.gid != -1)
             {
-                UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
-                dc.UserGroup.Attach(ug);
-                dc.UserGroup.Remove(ug);
-                dc.SaveChanges();
-                dc.Add(ugc);
+                if (dc.UserGroup.Any(o => o.uid == ugc.uid))
+                {
+                    UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
+                    dc.UserGroup.Attach(ug);
+                    dc.UserGroup.Remove(ug);
+                    dc.SaveChanges();
+                    dc.Add(ugc);
+                }
+                else
+                {
+                    dc.Add(ugc);
+                }
             }
             else
             {
-                dc.Add(ugc);
+                if (dc.UserGroup.Any(o => o.uid == ugc.uid))
+                {
+                    UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
+                    dc.UserGroup.Attach(ug);
+                    dc.UserGroup.Remove(ug);
+                }
             }
             dc.SaveChanges();
             return getUserGroups();

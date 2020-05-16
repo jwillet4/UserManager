@@ -82,6 +82,7 @@ export class GroupManagementComponent implements OnInit {
 
   public editHandler({dataItem}) {
     this.editUserGroup = dataItem;
+    this.groups.push(new Group("-None-", -1));
     this.openEditGroup();
   }
 
@@ -89,6 +90,7 @@ export class GroupManagementComponent implements OnInit {
     this.editGroupOpened = false;
     this.editGroup = undefined;
     this.editUserGroup = undefined;
+    this.groups.pop();
   }
 
   public openEditGroup() {
