@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using webapi.Models;
+using webapi.Services;
 
 namespace usermanagerserver.Controllers
 {
@@ -13,37 +14,30 @@ namespace usermanagerserver.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private UserService _us;
 
         public UserController(ILogger<UserController> logger)
         {
             _logger = logger;
+            _us = new UserService();
         }
 
         [HttpGet]
         public List<User> Get()
         {
-            var dc = new UserManagementContext();
-            return dc.User.ToList();
+            return _us.getUsers();
         }
 
         [HttpPost("[action]")]
         public List<User> AddUser(User user) 
         {
-            var dc = new UserManagementContext();
-            dc.User.Add(user);
-            dc.SaveChanges();
-            return dc.User.ToList();
+            return _us.addUser(user);
         }
 
         [HttpDelete("[action]")]
         public List<User> DeleteUser(int userId) 
         {
-            var dc = new UserManagementContext();
-            User user = dc.User.Where(o => o.id == userId).Single();
-            dc.User.Attach(user);
-            dc.User.Remove(user);
-            dc.SaveChanges();
-            return dc.User.ToList();
+            return _us.deleteUser(userId);
         }
 
     }
