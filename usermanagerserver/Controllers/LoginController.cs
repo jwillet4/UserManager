@@ -48,5 +48,15 @@ namespace usermanagerserver.Controllers
         {
             return _us.login(email);
         }
+
+        ///<summary>
+        ///Removes active token for user authentication
+        ///</summary>
+        ///<param uid="email">Id of the user to be logged out</param>
+        [HttpDelete("[action]")]
+        public void Logout(int uid)
+        {
+            _us.logout(uid);
+        }
     }
 }

@@ -75,6 +75,18 @@ namespace webapi.Services
             return new LoginUser(user.id, user.first_name, user.last_name, user.email, user.id == 1 ? true : false, token.token);
         }
 
+        //Takes a users id and deletes the token associated with it
+        public void logout(int uid) 
+        {
+            if (_dc.Token.Any(o => o.uid == uid))
+            {
+                Token token = _dc.Token.Where(o => o.uid == uid).Single();
+                _dc.Token.Attach(token);
+                _dc.Token.Remove(token);
+                _dc.SaveChanges();
+            }
+        }
+
         private string generateToken()
         {
             int length = 32;

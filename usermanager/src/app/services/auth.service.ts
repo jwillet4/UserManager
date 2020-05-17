@@ -3,14 +3,13 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { LoginUser } from '../models/login-user';
 import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   STORAGE_KEY = "authCookie";
-
-  private authenticated: boolean;
 
   //Observable for user data
   private loginUserSource: BehaviorSubject<LoginUser>;
@@ -20,9 +19,7 @@ export class AuthService {
   private httpClient: HttpClient;
   private baseUrl: string;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient) {
-    console.log("Test:", this.storage.get(this.STORAGE_KEY));
-    this.storage.set(this.STORAGE_KEY, "test");
+  constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient, private router: Router) {
 
     this.loginUserSource = new BehaviorSubject<LoginUser>(null);
     this.loginUser = this.loginUserSource.asObservable();
@@ -72,7 +69,14 @@ export class AuthService {
   }
 
   public logout(): void {
-    console.log("logging out")
+    const httpParams = new HttpParams().set('uid', this.loginUserSource.value.uid.toString());
+    this.httpClient.delete(this.baseUrl + '/Logout', { params: httpParams }).subscribe( result => {
+      this.storage.clear(this.STORAGE_KEY);
+      this.loginUserSource.next(null);
+      this.router.navigate(['/login']);
+    }, error => {
+      console.log(error)
+    });
   }
 
 }
