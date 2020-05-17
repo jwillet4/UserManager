@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   public logout(): void {
-
+    console.log("logging out")
   }
 
 }

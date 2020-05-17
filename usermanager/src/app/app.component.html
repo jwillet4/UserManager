@@ -1,5 +1,8 @@
 <h1>BlueMatrix User Management</h1>
-<!-- Add restriction to /group if not an admin -->
+<div *ngIf="loginUser">
+  <h3>Welcome, {{ loginUser.first_name }} {{ loginUser.last_name }}</h3>
+  <button kendoButton (click)="logout()">Logout</button>
+</div>
 <nav *ngIf="loginUser">
   <ul>
     <li><a routerLink="/" routerLinkActive="active">User Manager</a></li>

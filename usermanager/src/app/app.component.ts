@@ -19,4 +19,8 @@ export class AppComponent {
     //Subscribes to observables in AuthService
     this.authService.loginUser.subscribe(user => this.loginUser = user);
   }
+
+  public logout(): void {
+    this.authService.logout();
+  }
 }
