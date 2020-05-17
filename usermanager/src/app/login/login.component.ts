@@ -22,11 +22,16 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.authService.login(this.email).then(res => {
-      //Redirect to home page
-      this.router.navigate(['/']);
+      if (res) {
+        //Redirect to home page
+        this.router.navigate(['/']);
+      }
+      else {
+        alert("Login failed");
+      }
     }).catch(rej => {
-      console.log("Authentication failed");
-      //Add visible message
+      console.log(rej);
+      alert("Login failed");
     });
   }
 
