@@ -51,11 +51,11 @@ CREATE TABLE IF NOT EXISTS `user_management`.`token` (
   PRIMARY KEY (`uid`),
   UNIQUE INDEX `uid_UNIQUE` (`uid` ASC),
   UNIQUE INDEX `token_UNIQUE` (`token` ASC),
-  CONSTRAINT `uid`
+  CONSTRAINT `uid_token`
     FOREIGN KEY (`uid`)
     REFERENCES `user_management`.`user` (`id`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE CASCADE);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
