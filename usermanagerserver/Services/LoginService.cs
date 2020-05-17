@@ -87,6 +87,7 @@ namespace webapi.Services
             }
         }
 
+        //Generates random 32 char string to uses as token 
         private string generateToken()
         {
             int length = 32;

@@ -21,16 +21,18 @@ export class AuthService {
   private baseUrl: string;
 
   constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient, private router: Router, private notificationService: NotificationService) {
-
+    //Set observables and values needed for http requests
     this.loginUserSource = new BehaviorSubject<LoginUser>(null);
     this.loginUser = this.loginUserSource.asObservable();
 
     this.httpClient = http;
     this.baseUrl = "https://localhost:5001/login"
 
+    //Attempt to authenticate the user
     this.authenticateUser();
   }
 
+  //Uses stored token to automatically send authentication request
   async authenticateUser(): Promise<LoginUser> {
     if (this.storage.get(this.STORAGE_KEY)) {
       //Send api call
@@ -48,6 +50,7 @@ export class AuthService {
     return null;
   }
 
+  //Sends request to sign in via email associated with user
   async login(email: string): Promise<LoginUser> {
     //Send api call
     const httpParams = new HttpParams().set('email', email);
@@ -70,6 +73,7 @@ export class AuthService {
     return promise;
   }
 
+  //Sings user out, deletes locally stored token, deletes token stored in database
   public logout(): void {
     const httpParams = new HttpParams().set('uid', this.loginUserSource.value.uid.toString());
     this.httpClient.delete(this.baseUrl + '/Logout', { params: httpParams }).subscribe( result => {

@@ -11,6 +11,7 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 })
 export class LoginComponent implements OnInit {
 
+  //Bound to email input for login
   public email: string;
 
   constructor(private titleService: Title, private authService: AuthService, private router: Router, private notificationService: NotificationService) { 
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //Sends login request; if successful redirects user
   login(): void {
     this.authService.login(this.email).then(res => {
       if (res) {

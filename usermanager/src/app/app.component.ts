@@ -20,6 +20,7 @@ export class AppComponent {
     this.authService.loginUser.subscribe(user => this.loginUser = user);
   }
 
+  //Accesses authService logout which deletes cookie and signs user out
   public logout(): void {
     this.authService.logout();
   }
