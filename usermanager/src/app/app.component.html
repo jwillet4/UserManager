@@ -3,7 +3,7 @@
 <nav *ngIf="loginUser">
   <ul>
     <li><a routerLink="/" routerLinkActive="active">User Manager</a></li>
-    <li><a routerLink="/group" routerLinkActive="active">Group Manager</a></li>
+    <li *ngIf="loginUser.uid == 1"><a routerLink="/group" routerLinkActive="active">Group Manager</a></li>
   </ul>
 </nav>
 
