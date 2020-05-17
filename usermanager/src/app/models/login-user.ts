@@ -4,7 +4,7 @@ export class LoginUser {
     last_name: string;
     email: string;
     admin_status: boolean;
-    token
+    token: string;
 
     constructor(uid: number, first_name: string, last_name: string, email: string, admin_status: boolean, token: string) {
         this.uid = uid;
