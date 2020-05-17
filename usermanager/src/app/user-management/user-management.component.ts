@@ -26,7 +26,11 @@ export class UserManagementComponent implements OnInit {
 
   constructor(private titleService: Title, private userService: UserService, private authService: AuthService, private router: Router) {
     //Checks if user is authenticated
-    authService.authenticateUser().catch(rej => {
+    authService.authenticateUser().then(res => {
+      if (!res) {
+        this.router.navigate(['/login']);
+      }
+    }).catch(rej => {
       this.router.navigate(['/login']);
     });
 

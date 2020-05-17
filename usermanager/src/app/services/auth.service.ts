@@ -20,6 +20,7 @@ export class AuthService {
   constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient) {
     console.log("Test:", this.storage.get(this.STORAGE_KEY));
     this.storage.set(this.STORAGE_KEY, "test");
+    this.storage.set(this.STORAGE_KEY, undefined);
 
     this.httpClient = http;
     this.baseUrl = "https://localhost:5001/login"
@@ -43,12 +44,21 @@ export class AuthService {
     return null;
   }
 
-  async login(email: string): Promise<boolean> {
-    //Send api call, return true if auth
-    
-    return new Promise((res, rej) => {
-      res(true);
+  async login(email: string): Promise<LoginUser> {
+    //Send api call
+    const httpParams = new HttpParams().set('email', email);
+    const promise = this.httpClient.get<LoginUser>(this.baseUrl + '/Login', { params: httpParams }).toPromise()
+    //Handle promise and return
+    promise.then((result) => {
+      //Observables
+      
+      this.storage.set(this.STORAGE_KEY, result.token);
+      return Promise.resolve(true);
+    }).catch((rej) => {
+      console.log(rej)
+      return Promise.resolve(false)
     });
+    return promise;
   }
 
 }

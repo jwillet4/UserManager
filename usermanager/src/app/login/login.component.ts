@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   public email: string;
 
-  constructor(private titleService: Title, private authService: AuthService) { 
+  constructor(private titleService: Title, private authService: AuthService, private router: Router) { 
     //Sets page title
     titleService.setTitle('Login');
   }
@@ -21,8 +22,8 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.authService.login(this.email).then(res => {
-      console.log(res);
       //Redirect to home page
+      this.router.navigate(['/']);
     }).catch(rej => {
       console.log("Authentication failed");
       //Add visible message

@@ -35,5 +35,18 @@ namespace usermanagerserver.Controllers
         {
             return _us.loginToken(token);
         }
+
+        ///<summary>
+        ///Authenticates a user by email
+        ///</summary>
+        ///<param name="email">Email of the user</param>
+        ///<returns>
+        ///LoginUser object
+        ///</returns>
+        [HttpGet("[action]")]
+        public LoginUser Login(string email)
+        {
+            return _us.login(email);
+        }
     }
 }
