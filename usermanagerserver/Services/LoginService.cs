@@ -18,6 +18,9 @@ namespace webapi.Services
             _dc = new UserManagementContext();
         }
 
-        
+        public LoginUser loginToken(string token) 
+        {
+            return null;
+        }
     }
 }

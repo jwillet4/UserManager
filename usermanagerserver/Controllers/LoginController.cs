@@ -29,10 +29,10 @@ namespace usermanagerserver.Controllers
         ///<returns>
         ///A list of users
         ///</returns>
-        [HttpGet]
-        public List<User> Get( [FromBody] string token)
+        [HttpGet("[action]")]
+        public LoginUser LoginToken( [FromBody] string token)
         {
-            return _us.getUsers();
+            return _us.loginToken(token);
         }
     }
 }
