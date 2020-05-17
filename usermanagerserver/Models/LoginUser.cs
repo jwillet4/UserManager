@@ -9,13 +9,15 @@ namespace webapi.Models
         public string last_name { get; set; }
         public string email { get; set; }
         public Boolean admin_status { get; set; }
+        public string token { get; set; }
 
-        public LoginUser(int uid, string firstName, string lastName, string email, Boolean admin_status) {
+        public LoginUser(int uid, string firstName, string lastName, string email, Boolean admin_status, string token) {
             this.uid = uid;
             this.first_name = firstName;
             this.last_name = lastName;
             this.email = email;
             this.admin_status = admin_status;
+            this.token = token;
         }
 
         public LoginUser() 

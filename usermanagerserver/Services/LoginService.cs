@@ -20,7 +20,27 @@ namespace webapi.Services
 
         public LoginUser loginToken(string token) 
         {
-            return null;
+            if (_dc.Token.Any(o => o.token == token))
+            {
+                return _dc.Token.Join(
+                    _dc.User,
+                    login => login.uid,
+                    user => user.id,
+                    (login, user) => new LoginUser 
+                    {
+                        uid = user.id,
+                        first_name = user.first_name,
+                        last_name = user.last_name,
+                        email = user.email,
+                        admin_status = user.id == 1 ? true : false,
+                        token = login.token
+                    }
+                ).Single();
+            }
+            else
+            {
+                return new LoginUser();
+            }
         }
     }
 }

@@ -24,13 +24,14 @@ namespace usermanagerserver.Controllers
         }
 
         ///<summary>
-        ///Searches the database for all user entries
+        ///Authenticates a user by token
         ///</summary>
+        ///<param name="token">Token for user</param>
         ///<returns>
-        ///A list of users
+        ///LoginUser object
         ///</returns>
         [HttpGet("[action]")]
-        public LoginUser LoginToken( [FromBody] string token)
+        public LoginUser LoginToken(string token)
         {
             return _us.loginToken(token);
         }
