@@ -6,6 +6,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { State, process } from '@progress/kendo-data-query';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-user-management',
@@ -22,7 +23,7 @@ export class UserManagementComponent implements OnInit {
   //Tracks row index when editing
   private editedRowIndex: number;
 
-  constructor(private titleService: Title, private userService: UserService) {
+  constructor(private titleService: Title, private userService: UserService, private authService: AuthService) {
     //Sets page title
     titleService.setTitle('User Manager');
   }

@@ -14,7 +14,7 @@ import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { StorageServiceModule } from 'ngx-webstorage-service';
 
 
 
@@ -37,7 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
     DialogsModule,
     InputsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    StorageServiceModule
   ],
   providers: [],
   bootstrap: [AppComponent]
