@@ -7,6 +7,7 @@ import { State, process } from '@progress/kendo-data-query';
 import { Title } from '@angular/platform-browser';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-management',
@@ -23,7 +24,12 @@ export class UserManagementComponent implements OnInit {
   //Tracks row index when editing
   private editedRowIndex: number;
 
-  constructor(private titleService: Title, private userService: UserService, private authService: AuthService) {
+  constructor(private titleService: Title, private userService: UserService, private authService: AuthService, private router: Router) {
+    //Checks if user is authenticated
+    authService.authenticateUser().catch(rej => {
+      this.router.navigate(['/login']);
+    });
+
     //Sets page title
     titleService.setTitle('User Manager');
   }

@@ -3,6 +3,8 @@ import { UserGroup } from '../models/user-group';
 import { Group } from '../models/group';
 import { Title } from '@angular/platform-browser';
 import { GroupService } from '../services/group.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-management',
@@ -28,7 +30,12 @@ export class GroupManagementComponent implements OnInit {
   public editGroup: Group;
   private editUserGroup: UserGroup;
 
-  constructor(private titleService: Title, private groupService: GroupService) { 
+  constructor(private titleService: Title, private groupService: GroupService, private authService: AuthService, private router: Router) { 
+    //Checks if user is authenticated
+    authService.authenticateUser().catch(rej => {
+      this.router.navigate(['/login']);
+    });
+    
     //Sets page title
     titleService.setTitle('Group Manager');
     //Ensures all windows are closed at init

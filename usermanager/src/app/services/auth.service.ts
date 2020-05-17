@@ -20,13 +20,17 @@ export class AuthService {
   async authenticateUser(): Promise<LoginUser> {
     if (this.storage.get(this.STORAGE_KEY)) {
       //Send api call
+
+      return new Promise((res, rej) => {
+        rej(null);
+      })
+
     }
     else {
-      //Redirect
+      return new Promise((res, rej) => {
+        rej(null);
+      })
     }
-
-    
-    return new Promise(null);
   }
 
   async login(email: string): Promise<boolean> {
@@ -35,4 +39,5 @@ export class AuthService {
       res(true);
     });
   }
+
 }
