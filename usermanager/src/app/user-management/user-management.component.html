@@ -8,8 +8,7 @@
     <kendo-grid-column field="email" title="Email" width="200"></kendo-grid-column>
     <kendo-grid-command-column title="Commands" width="220">
         <ng-template kendoGridCellTemplate let-isNew="isNew" let-dataItem>
-            <!-- Add disabled if signed in user -->
-            <button kendoGridRemoveCommand [disabled]="dataItem.id == 1">Remove</button>
+            <button kendoGridRemoveCommand [disabled]="dataItem.id == 1 || dataItem.id == loginUser.uid">Remove</button>
             <button kendoGridSaveCommand [disabled]="formGroup?.invalid">Add</button>
             <button kendoGridCancelCommand>Cancel</button>
         </ng-template>

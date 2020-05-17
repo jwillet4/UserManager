@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { LoginUser } from '../models/login-user';
 
 @Component({
   selector: 'app-user-management',
@@ -17,6 +18,8 @@ import { Router } from '@angular/router';
 export class UserManagementComponent implements OnInit {
   //Observed from user service; used to populate the grid
   public users: Array<User>; 
+
+  public loginUser: LoginUser;
 
   //Tracks form group to add new user
   public formGroup: FormGroup;
@@ -41,6 +44,8 @@ export class UserManagementComponent implements OnInit {
   ngOnInit(): void {
     //Subscribes to observable in user service
     this.userService.users.subscribe(users => this.users = users);
+    //Subscribes to observable in authService
+    this.authService.loginUser.subscribe(loginUser => this.loginUser = loginUser);
   }
 
   //Opens inline editor and creates corresponding form
