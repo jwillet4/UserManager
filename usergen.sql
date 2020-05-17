@@ -43,6 +43,19 @@ CREATE TABLE IF NOT EXISTS `user_management`.`user_group` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
+DROP TABLE IF EXISTS `user_management`.`token` ;
+
+CREATE TABLE IF NOT EXISTS `user_management`.`token` (
+  `uid` INT NOT NULL,
+  `token` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`uid`),
+  UNIQUE INDEX `uid_UNIQUE` (`uid` ASC),
+  UNIQUE INDEX `token_UNIQUE` (`token` ASC),
+  CONSTRAINT `uid`
+    FOREIGN KEY (`uid`)
+    REFERENCES `user_management`.`user` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
