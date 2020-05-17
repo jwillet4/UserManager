@@ -4,6 +4,7 @@ import { LoginUser } from '../models/login-user';
 import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { NotificationService } from '@progress/kendo-angular-notification';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class AuthService {
   private httpClient: HttpClient;
   private baseUrl: string;
 
-  constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient, private router: Router) {
+  constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient, private router: Router, private notificationService: NotificationService) {
 
     this.loginUserSource = new BehaviorSubject<LoginUser>(null);
     this.loginUser = this.loginUserSource.asObservable();
@@ -58,6 +59,7 @@ export class AuthService {
         this.loginUserSource.next(result);
         //Set token
         this.storage.set(this.STORAGE_KEY, result.token);
+        this.successNotification("Login successful, welcome");
         return Promise.resolve(true);
       }
       return Promise.resolve(false);
@@ -76,6 +78,35 @@ export class AuthService {
       this.router.navigate(['/login']);
     }, error => {
       console.log(error)
+      this.errorNotification(error);
+    });
+  }
+
+  //NOTIFICATIONS
+
+  //Displays a notification in case of success
+  private successNotification(message: string): void {
+    this.notificationService.show({
+      content: message,
+      cssClass: 'button-notification',
+      hideAfter: 1500,
+      animation: { type: 'fade', duration: 800 },
+      position: { horizontal: 'center', vertical: 'top' },
+      type: { style: 'success', icon: true },
+      closable: false
+    });
+  }
+  
+  //Displays a notification in case of error
+  private errorNotification(error: string): void {
+    this.notificationService.show({
+      content: 'Error: ' + error,
+      cssClass: 'button-notification',
+      hideAfter: 3000,
+      animation: { type: 'fade', duration: 500 },
+      position: { horizontal: 'center', vertical: 'top' },
+      type: { style: 'error', icon: true },
+      closable: false
     });
   }
 

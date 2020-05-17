@@ -3,6 +3,7 @@ import { UserGroup, UserGroupChangeDTO } from '../models/user-group';
 import { Group } from '../models/group';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaderResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { NotificationService } from '@progress/kendo-angular-notification';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class GroupService {
   private httpClient: HttpClient;
   private baseUrl: string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private notificationService: NotificationService) { 
     //Observable for user data
     this.groupSource = new BehaviorSubject<Array<Group>>([]);
     this.groups = this.groupSource.asObservable();
@@ -42,6 +43,7 @@ export class GroupService {
       this.groupSource.next(result);
     }, error => {
       console.log(error);
+      this.errorNotification(error);
     });
   }
 
@@ -51,6 +53,7 @@ export class GroupService {
       this.userGroupSource.next(result);
     }, error => {
       console.log(error);
+      this.errorNotification(error);
     });
   }
 
@@ -61,6 +64,7 @@ export class GroupService {
       this.groupSource.next(result);
     }, error => {
       console.log(error)
+      this.errorNotification(error);
     });
   }
 
@@ -72,6 +76,7 @@ export class GroupService {
       this.getUserGroups();
     }, error => {
       console.log(error)
+      this.errorNotification(error);
     });
   }
 
@@ -83,6 +88,35 @@ export class GroupService {
       console.log(result)
     }, error => {
       console.log(error)
+      this.errorNotification(error);
+    });
+  }
+
+  //NOTIFICATIONS
+
+  //Displays a notification in case of success
+  private successNotification(message: string): void {
+    this.notificationService.show({
+      content: message,
+      cssClass: 'button-notification',
+      hideAfter: 1500,
+      animation: { type: 'fade', duration: 800 },
+      position: { horizontal: 'center', vertical: 'top' },
+      type: { style: 'success', icon: true },
+      closable: false
+    });
+  }
+  
+  //Displays a notification in case of error
+  private errorNotification(error: string): void {
+    this.notificationService.show({
+      content: 'Error: ' + error,
+      cssClass: 'button-notification',
+      hideAfter: 3000,
+      animation: { type: 'fade', duration: 500 },
+      position: { horizontal: 'center', vertical: 'top' },
+      type: { style: 'error', icon: true },
+      closable: false
     });
   }
 

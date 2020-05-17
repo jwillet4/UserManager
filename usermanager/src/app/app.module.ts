@@ -15,6 +15,8 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StorageServiceModule } from 'ngx-webstorage-service';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
 
 
 
@@ -38,7 +40,8 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
     InputsModule,
     FormsModule,
     HttpClientModule,
-    StorageServiceModule
+    StorageServiceModule,
+    NotificationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
