@@ -39,7 +39,7 @@ namespace webapi.Services
                         admin_status = user.id == 1 ? true : false,
                         token = login.token
                     }
-                ).Single();
+                ).Where(o => o.token == token).Single();
             }
             else
             {
@@ -77,7 +77,7 @@ namespace webapi.Services
 
         private string generateToken()
         {
-            int length = 7;
+            int length = 32;
       
             // creating a StringBuilder object()
             StringBuilder str_build = new StringBuilder();  

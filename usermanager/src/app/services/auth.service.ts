@@ -22,7 +22,7 @@ export class AuthService {
 
   constructor(@Inject(LOCAL_STORAGE) private storage, private http: HttpClient) {
     console.log("Test:", this.storage.get(this.STORAGE_KEY));
-    this.storage.set(this.STORAGE_KEY, undefined);
+    this.storage.set(this.STORAGE_KEY, "test");
 
     this.loginUserSource = new BehaviorSubject<LoginUser>(null);
     this.loginUser = this.loginUserSource.asObservable();
