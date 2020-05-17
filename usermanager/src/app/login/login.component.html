@@ -1,1 +1,7 @@
-<p>login works!</p>
+<h2>Login</h2>
+
+<kendo-textbox-container floatingLabel="Email Address">
+    <input kendoTextBox [(ngModel)]="email" />
+</kendo-textbox-container>
+<br>
+<button kendoButton (click)="login()" [primary]="true">Login</button>

@@ -28,4 +28,11 @@ export class AuthService {
     
     return new Promise(null);
   }
+
+  async login(email: string): Promise<boolean> {
+    //Send api call, return true if auth
+    return new Promise((res, rej) => {
+      res(true);
+    });
+  }
 }
