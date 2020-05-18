@@ -11,5 +11,5 @@ This will run the project locally at port 5001.
 
 ## Front-End
 For this, I decided to use Angular with Kendo components for styling and functionality. To start this, navigate to the usermanager directory and run the following command:
-`ng serve`
+`$ ng serve`
 Once everything is compiled, you should be able to visit the site at localhost port 4200.
