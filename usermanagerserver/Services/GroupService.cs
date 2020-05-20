@@ -82,6 +82,7 @@ namespace webapi.Services
                     UserGroup ug = dc.UserGroup.Where(o => o.uid == ugc.uid).Single();
                     dc.UserGroup.Attach(ug);
                     dc.UserGroup.Remove(ug);
+                    dc.Add(ugc);
                 }
             }
             dc.SaveChanges();
